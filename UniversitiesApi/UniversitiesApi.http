@@ -1,0 +1,6 @@
+@UniversitiesApi_HostAddress = http://localhost:5019
+
+GET {{UniversitiesApi_HostAddress}}/api/university/
+Accept: application/json
+
+###
