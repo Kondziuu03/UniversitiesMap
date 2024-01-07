@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UniversitiesApi.Entities;
+using UniversitiesApi.Enums;
 
 namespace UniversitiesApi.Db.Extensions;
 
@@ -18,6 +19,7 @@ public static class ModelBuilderExtensionsUniversities
                 WebsiteUrl = "https://pg.edu.pl",
                 Latitude = 54.22,
                 Longitude = 18.36,
+                Category = CategoryEnum.Technical,
                 AddressId = 1
             },
             new University
@@ -30,6 +32,7 @@ public static class ModelBuilderExtensionsUniversities
                 WebsiteUrl = "https://ug.edu.pl",
                 Latitude = 54.23,
                 Longitude = 18.34,
+                Category = CategoryEnum.University,
                 AddressId = 2
             },
             new University
@@ -42,6 +45,7 @@ public static class ModelBuilderExtensionsUniversities
                 WebsiteUrl = "https://www.agh.edu.pl",
                 Latitude = 54.03,
                 Longitude = 19.55,
+                Category = CategoryEnum.Technical,
                 AddressId = 3
             }
             );

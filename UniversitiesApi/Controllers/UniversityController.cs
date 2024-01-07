@@ -25,9 +25,9 @@ public class UniversityController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<UniversityDto>> Filter([FromQuery]UniversitySearchQuery query)
+    public ActionResult<IEnumerable<UniversityDto>> GetAll([FromQuery]UniversitySearchQuery query)
     {
-        var universities = _universityService.Filter(query);
+        var universities = _universityService.GetAll(query);
 
         return Ok(universities);
     }

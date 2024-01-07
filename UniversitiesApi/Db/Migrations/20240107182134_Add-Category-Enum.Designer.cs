@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UniversitiesApi.Db;
 
@@ -10,9 +11,11 @@ using UniversitiesApi.Db;
 namespace UniversitiesApi.Migrations
 {
     [DbContext(typeof(UniversitiesDbContext))]
-    partial class UniversitiesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240107182134_Add-Category-Enum")]
+    partial class AddCategoryEnum
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -6,6 +6,7 @@ using UniversitiesApi.Enums;
 using UniversitiesApi.Exceptions;
 using UniversitiesApi.Models;
 using UniversitiesApi.Services.Interfaces;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace UniversitiesApi.Services.Implementations
 {
@@ -26,39 +27,23 @@ namespace UniversitiesApi.Services.Implementations
             return _mapper.Map<UniversityDto>(GetById(id));
         }
 
-        public List<UniversityDto> GetAll()
+        public List<UniversityDto> GetAll(UniversitySearchQuery query)
         {
-            var universities = GetAllUniversities();
-
-            if (!universities.Any())
-                throw new NotFoundException("Could not found any university");
-
-            return universities.Select(university => _mapper.Map<UniversityDto>(university)).ToList();
-        }
-
-        public PagedResult<UniversityDto> Filter(UniversitySearchQuery query)
-        {
-            var baseQuery = _dbContext
+            var universities = _dbContext
                 .Universities
                 .Include(u => u.Address)
-                .Where(u => query.SearchPhrase == null
-                    || u.Name.ToLower().Contains(query.SearchPhrase.ToLower())
-                    || u.Description.ToLower().Contains(query.SearchPhrase.ToLower()));
+                .AsEnumerable();
 
-            baseQuery = query.SortDirection == SortDirection.ASC
-                ? baseQuery.OrderBy(u => u.Name)
-                : baseQuery.OrderByDescending(u => u.Name);
+            if (!string.IsNullOrEmpty(query.SearchPhrase))
+                universities = universities
+                    .Where(u => u.Name.ToLower().Contains(query.SearchPhrase.ToLower())
+                               || u.Description.ToLower().Contains(query.SearchPhrase.ToLower()));
 
-            var universities = baseQuery
-                .Skip(query.PageSize * (query.PageNumber - 1))
-                .Take(query.PageSize)
-                .ToList();
+            if (query.Category != null)
+                universities = universities
+                    .Where(u => u.Category == query.Category);
 
-            var totalItemsCount = baseQuery.Count();
-
-            var universitiesDtos = _mapper.Map<List<UniversityDto>>(universities);
-
-            return new PagedResult<UniversityDto>(universitiesDtos, totalItemsCount, query.PageSize, query.PageNumber);
+            return universities.Select(university => _mapper.Map<UniversityDto>(university)).ToList();
         }
 
         public int Create(UniversityDto universityDto)

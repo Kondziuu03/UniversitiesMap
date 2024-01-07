@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using UniversitiesApi.Enums;
 
 namespace UniversitiesApi.Models;
 
@@ -13,6 +14,7 @@ public class UniversityDto
     public double Latitude { get; set; }
     public double Longitude { get; set; }
     public string WebsiteUrl { get; set; }
+    public CategoryEnum Category { get; set; }
 
     [EmailAddress]
     public string Email { get; set; }
