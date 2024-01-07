@@ -1,17 +1,30 @@
-import { APIProvider, Map as GMap, Marker, useMarkerRef } from "@vis.gl/react-google-maps";
+import { APIProvider, Map as GMap, Marker } from "@vis.gl/react-google-maps";
 import { GOOGLE_API_KEY } from "../env";
-import React from "react";
+import tech from "./assets/icons/tech.png";
+import uni from "./assets/icons/uni.png";
+import medic from "./assets/icons/medic.png";
+import eco from "./assets/icons/eco.png";
+import military from "./assets/icons/military.png";
+import universities, { UniversityType } from "../mock/universities";
+
+function renderIcon(type: string) {
+  switch (type) {
+    case UniversityType.Politechnika:
+      return tech;
+    case UniversityType.Uniwersytet:
+      return uni;
+    case UniversityType.Medyczna:
+      return medic;
+    case UniversityType.Ekonomiczna:
+      return eco;
+    case UniversityType.Wojskowa:
+      return military;
+    default:
+      return uni;
+  }
+}
 
 export default function GoogleMap() {
-  const [markerRef, marker] = useMarkerRef();
-  React.useEffect(() => {
-    if (!marker) {
-      return;
-    }
-    marker.addListener("click", () => {
-      alert("Marker clicked!")
-    });
-  }, [marker]);
   return <APIProvider apiKey={GOOGLE_API_KEY}>
     <GMap
       zoom={7}
@@ -19,7 +32,13 @@ export default function GoogleMap() {
       gestureHandling={"greedy"}
       disableDefaultUI={true}
     >
-      <Marker ref={markerRef} position={{lat: 54.37175007030255, lng: 18.616306239885557}} />
+      {universities.map((u, i) => <Marker
+        key={i}
+        position={{lat: u.latitude, lng: u.longitude}}
+        icon={renderIcon(u.type)}
+        onClick={() => alert(u.name)}
+      />
+      )}
     </GMap>
   </APIProvider>;
 }
