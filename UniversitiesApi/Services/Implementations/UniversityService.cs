@@ -27,23 +27,19 @@ namespace UniversitiesApi.Services.Implementations
             return _mapper.Map<UniversityDto>(GetById(id));
         }
 
-        public List<UniversityDto> GetAll(UniversitySearchQuery query)
+        public List<UniversityDto> GetAll(string category)
         {
             var universities = _dbContext
                 .Universities
                 .Include(u => u.Address)
                 .AsEnumerable();
 
-            if (!string.IsNullOrEmpty(query.SearchPhrase))
+            if (Enum.TryParse(category, true, out CategoryEnum selectedCategory))
                 universities = universities
-                    .Where(u => u.Name.ToLower().Contains(query.SearchPhrase.ToLower())
-                               || u.Description.ToLower().Contains(query.SearchPhrase.ToLower()));
-
-            if (query.Category != null)
-                universities = universities
-                    .Where(u => u.Category == query.Category);
+                    .Where(u => u.Category == selectedCategory);
 
             return universities.Select(university => _mapper.Map<UniversityDto>(university)).ToList();
+
         }
 
         public int Create(UniversityDto universityDto)

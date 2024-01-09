@@ -25,9 +25,9 @@ public class UniversityController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<UniversityDto>> GetAll([FromQuery]UniversitySearchQuery query)
+    public ActionResult<IEnumerable<UniversityDto>> GetAll([FromQuery]string? category)
     {
-        var universities = _universityService.GetAll(query);
+        var universities = _universityService.GetAll(category ?? string.Empty);
 
         return Ok(universities);
     }
