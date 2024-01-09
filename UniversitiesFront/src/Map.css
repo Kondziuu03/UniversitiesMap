@@ -1,0 +1,43 @@
+.map {
+  position: relative;
+  height: 100%;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 10;
+  background-color: #444;
+  padding: 2px 6px;
+  border-radius: 10px;
+}
+
+.popup {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  color: #222;
+}
+
+.popup__description {
+  margin: 0;
+  margin-bottom: 0.25rem;
+  font-size: 14px;
+}
+
+.popup__icon {
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  width: 20px;
+  aspect-ratio: 1;
+}
+
+.popup__type {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.type {
+  margin-right: 0.1rem;
+  width: 24px;
+}

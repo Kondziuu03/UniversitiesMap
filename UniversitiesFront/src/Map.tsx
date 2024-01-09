@@ -1,11 +1,31 @@
-import { APIProvider, Map as GMap, Marker } from "@vis.gl/react-google-maps";
+import React from "react";
+import {
+  APIProvider,
+  Map as GMap,
+  InfoWindow,
+  Marker,
+  useMarkerRef,
+} from "@vis.gl/react-google-maps";
 import { GOOGLE_API_KEY } from "../env";
 import tech from "./assets/icons/tech.png";
 import uni from "./assets/icons/uni.png";
 import medic from "./assets/icons/medic.png";
 import eco from "./assets/icons/eco.png";
 import military from "./assets/icons/military.png";
-import universities, { UniversityType } from "../mock/universities";
+import { University, UniversityType } from "../mock/universities";
+import "./Map.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
+import {
+  faGlobe,
+  faGraduationCap,
+  faLocationDot,
+  faMicrochip,
+  faPersonMilitaryRifle,
+  faPhone,
+  faSackDollar,
+  faStaffSnake,
+} from "@fortawesome/free-solid-svg-icons";
 
 function renderIcon(type: string) {
   switch (type) {
@@ -24,21 +44,126 @@ function renderIcon(type: string) {
   }
 }
 
-export default function GoogleMap() {
-  return <APIProvider apiKey={GOOGLE_API_KEY}>
-    <GMap
-      zoom={7}
-      center={{ lat: 52.0102156, lng: 18.7701287 }}
-      gestureHandling={"greedy"}
-      disableDefaultUI={true}
-    >
-      {universities.map((u, i) => <Marker
-        key={i}
-        position={{lat: u.latitude, lng: u.longitude}}
-        icon={renderIcon(u.type)}
-        onClick={() => alert(u.name)}
+function renderFAIcon(type: string) {
+  switch (type) {
+    case UniversityType.Politechnika:
+      return faMicrochip;
+    case UniversityType.Uniwersytet:
+      return faGraduationCap;
+    case UniversityType.Medyczna:
+      return faStaffSnake;
+    case UniversityType.Ekonomiczna:
+      return faSackDollar;
+    case UniversityType.Wojskowa:
+      return faPersonMilitaryRifle;
+    default:
+      return faGraduationCap;
+  }
+}
+
+function renderTooltip(
+  university: University,
+  position: { x: number; y: number }
+) {
+  const tooltip = document.createElement("div");
+  tooltip.id = university.name;
+  tooltip.className = "tooltip";
+  tooltip.style.left = `${position.x}px`;
+  tooltip.style.top = `${position.y}px`;
+  tooltip.innerText = university.name;
+  document.body.append(tooltip);
+}
+
+interface MapMarkerProps {
+  university: University;
+  index: number;
+}
+
+function MapMarker(props: MapMarkerProps) {
+  const { university, index } = props;
+  const [tooltip, setTooltip] = React.useState(false);
+  const [popup, setPopup] = React.useState(false);
+  const [markerRef, marker] = useMarkerRef();
+  return (
+    <>
+      <Marker
+        ref={markerRef}
+        onMouseOver={(e) => {
+          if (!tooltip && !popup) {
+            setTooltip(true);
+            renderTooltip(university, {
+              x: e.domEvent.x,
+              y: e.domEvent.y,
+            });
+          }
+        }}
+        onMouseOut={() => {
+          setTooltip(false);
+          document.getElementById(university.name)?.remove();
+        }}
+        position={{ lat: university.latitude, lng: university.longitude }}
+        icon={renderIcon(university.type)}
+        key={index}
+        onClick={() => setPopup(true)}
       />
+      {popup && (
+        <InfoWindow anchor={marker} onCloseClick={() => setPopup(false)}>
+          <div className="popup">
+            <h2 className="popup__title">{university.name}</h2>
+            <span className="popup__description">{university.description}</span>
+            <span className="popup__type">
+              <FontAwesomeIcon
+                icon={renderFAIcon(university.type)}
+                className="popup__icon type"
+              />
+              {university.type}
+            </span>
+            <span className="popup__address">
+              <FontAwesomeIcon icon={faLocationDot} className="popup__icon" />
+              {university.address.street}, {university.address.postalCode}{" "}
+              {university.address.city}
+            </span>
+            <span className="popup__website">
+              <FontAwesomeIcon icon={faGlobe} className="popup__icon" />
+              <a href={university.websiteUrl} target="_blank">
+                {university.websiteUrl}
+              </a>
+            </span>
+            <span className="popup__phone">
+              <FontAwesomeIcon icon={faPhone} className="popup__icon" />
+              <a href={`tel:${university.phoneNumber}`}>
+                +48 {university.phoneNumber}
+              </a>
+            </span>
+            <span className="popup__email">
+              <FontAwesomeIcon icon={faEnvelope} className="popup__icon" />
+              <a href={`mailto:${university.email}`}>{university.email}</a>
+            </span>
+          </div>
+        </InfoWindow>
       )}
-    </GMap>
-  </APIProvider>;
+    </>
+  );
+}
+
+interface GoogleMapProps {
+  universities: University[];
+}
+
+export default function GoogleMap(props: GoogleMapProps) {
+  const { universities } = props;
+  return (
+    <APIProvider apiKey={GOOGLE_API_KEY}>
+      <GMap
+        zoom={7}
+        center={{ lat: 52.0102156, lng: 18.7701287 }}
+        gestureHandling={"greedy"}
+        disableDefaultUI={true}
+      >
+        {universities.map((u, i) => (
+          <MapMarker university={u} index={i} />
+        ))}
+      </GMap>
+    </APIProvider>
+  );
 }
