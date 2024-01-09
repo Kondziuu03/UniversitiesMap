@@ -7,8 +7,10 @@ import { SearchInput } from "./Search";
 function App() {
   const [text, setText] = React.useState("");
   const filteredUniversities = React.useMemo(() => {
-    return universities.filter((university) =>
-      university.name.toLowerCase().includes(text.toLowerCase())
+    return universities.filter(
+      (university) =>
+        university.name.toLowerCase().includes(text.toLowerCase()) ||
+        university.description.toLowerCase().includes(text.toLowerCase())
     );
   }, [text]);
   return (
