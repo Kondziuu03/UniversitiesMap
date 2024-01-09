@@ -70,7 +70,9 @@ function renderTooltip(
   tooltip.className = "tooltip";
   tooltip.style.left = `${position.x}px`;
   tooltip.style.top = `${position.y}px`;
-  tooltip.innerText = university.name;
+  tooltip.innerText = `${university.name} (${
+    Math.round(university.latitude * 1000) / 1000
+  }, ${Math.round(university.longitude * 1000) / 1000})`;
   document.body.append(tooltip);
 }
 
