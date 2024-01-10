@@ -20,12 +20,5 @@ public class UniversityDto
     public string Email { get; set; }
     public string PhoneNumber { get; set; }
 
-    [Required]
-    [MaxLength(50)]
-    public string City { get; set; }
-
-    [Required]
-    [MaxLength(50)]
-    public string Street { get; set; }
-    public string PostalCode { get; set; }
+    public AddressDto Address { get; set; }
 }
