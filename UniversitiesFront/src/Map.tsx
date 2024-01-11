@@ -161,6 +161,9 @@ export default function GoogleMap(props: GoogleMapProps) {
         center={{ lat: 52.0102156, lng: 18.7701287 }}
         gestureHandling={"greedy"}
         disableDefaultUI={true}
+        maxZoom={20}
+        minZoom={6}
+        clickableIcons={false}
       >
         {universities.map((u, i) => (
           <MapMarker university={u} index={i} />

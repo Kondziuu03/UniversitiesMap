@@ -1,0 +1,23 @@
+.add-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-form > div:not(.loading) {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1em;
+}
+
+.add-form > div > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-form label {
+  margin: 0;
+}
+
+button[type="submit"] {
+  margin-top: 10px;
+}

@@ -3,6 +3,7 @@ import universities from "../mock/universities";
 import "./App.css";
 import GoogleMap from "./Map";
 import { SearchInput } from "./Search";
+import AddForm from "./AddForm";
 
 function App() {
   const [text, setText] = React.useState("");
@@ -17,6 +18,7 @@ function App() {
     <>
       <SearchInput setText={setText} />
       <GoogleMap universities={filteredUniversities} />
+      <AddForm endpoint="https://google.com" />
     </>
   );
 }
