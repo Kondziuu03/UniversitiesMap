@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UniversitiesApi.Models;
 using UniversitiesApi.Services.Interfaces;
