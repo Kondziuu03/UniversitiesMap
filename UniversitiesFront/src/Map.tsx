@@ -150,10 +150,20 @@ function MapMarker(props: MapMarkerProps) {
 
 interface GoogleMapProps {
   universities: University[];
+  location: {
+    x: number | undefined;
+    y: number | undefined;
+  };
+  setLocation: (location: {
+    x: number | undefined;
+    y: number | undefined;
+  }) => void;
 }
 
 export default function GoogleMap(props: GoogleMapProps) {
-  const { universities } = props;
+  const { universities, location, setLocation } = props;
+  const [marker, setMarker] = React.useState(false);
+
   return (
     <APIProvider apiKey={GOOGLE_API_KEY}>
       <GMap
@@ -164,10 +174,15 @@ export default function GoogleMap(props: GoogleMapProps) {
         maxZoom={20}
         minZoom={6}
         clickableIcons={false}
+        onClick={(e) => {
+          setLocation({ x: e.detail.latLng.lat, y: e.detail.latLng.lng });
+          setMarker(true);
+        }}
       >
         {universities.map((u, i) => (
           <MapMarker university={u} index={i} />
         ))}
+        {marker && <Marker position={{ lat: location.x, lng: location.y }} />}
       </GMap>
     </APIProvider>
   );

@@ -14,11 +14,20 @@ function App() {
         university.description.toLowerCase().includes(text.toLowerCase())
     );
   }, [text]);
+  const [location, setLocation] = React.useState({
+    x: undefined,
+    y: undefined,
+  });
+
   return (
     <>
       <SearchInput setText={setText} />
-      <GoogleMap universities={filteredUniversities} />
-      <AddForm endpoint="https://google.com" />
+      <GoogleMap
+        universities={filteredUniversities}
+        location={location}
+        setLocation={setLocation}
+      />
+      <AddForm endpoint="https://google.com" location={location} />
     </>
   );
 }

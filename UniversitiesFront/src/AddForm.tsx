@@ -3,10 +3,11 @@ import useForm from "./useForm";
 
 interface AddFormProps {
   endpoint: string;
+  location: { x: number | undefined; y: number | undefined };
 }
 
 export default function AddForm(props: AddFormProps) {
-  const { endpoint } = props;
+  const { endpoint, location } = props;
   const { handleSubmit, status, message } = useForm();
 
   if (status === "success") {
@@ -47,11 +48,21 @@ export default function AddForm(props: AddFormProps) {
           </div>
           <div>
             <label htmlFor="latitude">Latitude</label>
-            <input type="text" name="latitude" id="latitude" />
+            <input
+              type="text"
+              name="latitude"
+              id="latitude"
+              value={location.x}
+            />
           </div>
           <div>
             <label htmlFor="longitude">Longitude</label>
-            <input type="text" name="longitude" id="longitude" />
+            <input
+              type="text"
+              name="longitude"
+              id="longitude"
+              value={location.y}
+            />
           </div>
         </div>
         <h4>Address</h4>

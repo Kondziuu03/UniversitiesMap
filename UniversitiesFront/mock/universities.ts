@@ -105,8 +105,8 @@ const universities: University[] = [
     name: "Politechnika Gdańska",
     description:
       "Technology university campus, founded in 1904, with 9 faculties & scientific research programs.",
-    latitude: 54.37220362394118,
-    longitude: 18.61640456252711,
+    latitude: 54.37144436685809,
+    longitude: 18.619169154132095,
     websiteUrl: "https://pg.edu.pl/",
     email: "rekrutacja@pg.edu.pl",
     phoneNumber: "583471100",
