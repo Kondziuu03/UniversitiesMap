@@ -7,16 +7,15 @@ using UniversitiesApi.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Logging.ClearProviders();
-builder.Logging.SetMinimumLevel(LogLevel.Information);
-builder.Logging.AddNLogWeb();
-
 // Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Logging.SetMinimumLevel(LogLevel.Information);
+builder.Logging.AddNLogWeb();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IUniversityService, UniversityService>();
