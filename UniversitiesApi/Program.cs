@@ -1,9 +1,12 @@
-using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using Microsoft.Extensions.Configuration;
 using NLog.Web;
 using UniversitiesApi.Db;
 using UniversitiesApi.Middleware;
 using UniversitiesApi.Services.Implementations;
 using UniversitiesApi.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql.Internal;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,8 +25,10 @@ builder.Services.AddScoped<IUniversityService, UniversityService>();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 
 var connectionString = builder.Configuration.GetConnectionString("UniversitiesDbConnection");
-builder.Services.AddDbContext<UniversitiesDbContext>
-                (options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<UniversitiesDbContext>(options => 
+                {
+                    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+                });
 
 var app = builder.Build();
 
