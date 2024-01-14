@@ -1,5 +1,5 @@
 import React from "react";
-import universities from "../mock/universities";
+import UNIVERSITIES from "../mock/universities";
 import "./App.css";
 import GoogleMap from "./Map";
 import { SearchInput } from "./Search";
@@ -7,13 +7,14 @@ import AddForm from "./AddForm";
 
 function App() {
   const [text, setText] = React.useState("");
+  const [universities, setUniversities] = React.useState(UNIVERSITIES);
   const filteredUniversities = React.useMemo(() => {
     return universities.filter(
       (university) =>
         university.name.toLowerCase().includes(text.toLowerCase()) ||
         university.description.toLowerCase().includes(text.toLowerCase())
     );
-  }, [text]);
+  }, [text, universities]);
   const [location, setLocation] = React.useState({
     x: undefined,
     y: undefined,
@@ -29,6 +30,7 @@ function App() {
         setLocation={setLocation}
         marker={marker}
         setMarker={setMarker}
+        setUniversities={setUniversities}
       />
       <AddForm
         endpoint="https://google.com"

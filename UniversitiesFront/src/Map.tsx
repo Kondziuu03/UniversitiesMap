@@ -17,6 +17,7 @@ import "./Map.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import {
+  faCheck,
   faGlobe,
   faGraduationCap,
   faLocationDot,
@@ -80,13 +81,21 @@ function renderTooltip(
 interface MapMarkerProps {
   university: University;
   index: number;
+  universities: University[];
+  setUniversities: (universities: []) => void;
 }
 
 function MapMarker(props: MapMarkerProps) {
-  const { university, index } = props;
+  const { university, index, universities, setUniversities } = props;
   const [tooltip, setTooltip] = React.useState(false);
   const [popup, setPopup] = React.useState(false);
   const [markerRef, marker] = useMarkerRef();
+  const [edit, setEdit] = React.useState(false);
+  const descriptionRef = React.useRef<HTMLInputElement>(null);
+  const websiteUrlRef = React.useRef<HTMLInputElement>(null);
+  const phoneNumberRef = React.useRef<HTMLInputElement>(null);
+  const emailRef = React.useRef<HTMLInputElement>(null);
+
   return (
     <>
       <Marker
@@ -114,13 +123,45 @@ function MapMarker(props: MapMarkerProps) {
           <div className="popup">
             <h2 className="popup__title">
               {university.name}
-              <FontAwesomeIcon
-                icon={faPencil}
-                className="popup__edit"
-                onClick={() => console.log(university.name)}
-              />
+              {edit ? (
+                <FontAwesomeIcon
+                  icon={faCheck}
+                  className="popup__edit"
+                  onClick={() => {
+                    const uni = universities.find(
+                      (u) => u.name === university.name
+                    )!;
+                    const index = universities.indexOf(uni);
+                    uni.description = descriptionRef.current?.value;
+                    uni.websiteUrl = websiteUrlRef.current?.value;
+                    uni.phoneNumber = phoneNumberRef.current?.value;
+                    uni.email = emailRef.current?.value;
+                    universities[index] = uni;
+                    setUniversities([...universities]);
+                    setEdit(false);
+                  }}
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faPencil}
+                  className="popup__edit"
+                  onClick={() => {
+                    setEdit(true);
+                  }}
+                />
+              )}
             </h2>
-            <span className="popup__description">{university.description}</span>
+            {edit ? (
+              <input
+                type="text"
+                defaultValue={university.description}
+                ref={descriptionRef}
+              />
+            ) : (
+              <span className="popup__description">
+                {university.description}
+              </span>
+            )}
             <span className="popup__type">
               <FontAwesomeIcon
                 icon={renderFAIcon(university.type)}
@@ -135,19 +176,44 @@ function MapMarker(props: MapMarkerProps) {
             </span>
             <span className="popup__website">
               <FontAwesomeIcon icon={faGlobe} className="popup__icon" />
-              <a href={university.websiteUrl} target="_blank">
-                {university.websiteUrl}
-              </a>
+              {edit ? (
+                <input
+                  type="text"
+                  defaultValue={university.websiteUrl}
+                  ref={websiteUrlRef}
+                />
+              ) : (
+                <a href={university.websiteUrl} target="_blank">
+                  {university.websiteUrl}
+                </a>
+              )}
             </span>
             <span className="popup__phone">
               <FontAwesomeIcon icon={faPhone} className="popup__icon" />
-              <a href={`tel:${university.phoneNumber}`}>
-                +48 {university.phoneNumber}
-              </a>
+              {edit ? (
+                <input
+                  type="text"
+                  defaultValue={university.phoneNumber}
+                  ref={phoneNumberRef}
+                  maxLength={9}
+                />
+              ) : (
+                <a href={`tel:${university.phoneNumber}`}>
+                  +48 {university.phoneNumber}
+                </a>
+              )}
             </span>
             <span className="popup__email">
               <FontAwesomeIcon icon={faEnvelope} className="popup__icon" />
-              <a href={`mailto:${university.email}`}>{university.email}</a>
+              {edit ? (
+                <input
+                  type="text"
+                  defaultValue={university.email}
+                  ref={emailRef}
+                />
+              ) : (
+                <a href={`mailto:${university.email}`}>{university.email}</a>
+              )}
             </span>
           </div>
         </InfoWindow>
@@ -168,13 +234,18 @@ interface GoogleMapProps {
   }) => void;
   marker: boolean;
   setMarker: (marker: boolean) => void;
+  setUniversities: (universities: []) => void;
 }
 
 export default function GoogleMap(props: GoogleMapProps) {
-  const { universities, location, setLocation, marker, setMarker } = props;
-  React.useEffect(() => {
-    // fetch("localhost:5019/api/universities");
-  }, []);
+  const {
+    universities,
+    location,
+    setLocation,
+    marker,
+    setMarker,
+    setUniversities,
+  } = props;
 
   return (
     <APIProvider apiKey={GOOGLE_API_KEY}>
@@ -192,7 +263,13 @@ export default function GoogleMap(props: GoogleMapProps) {
         }}
       >
         {universities.map((u, i) => (
-          <MapMarker university={u} index={i} key={i} />
+          <MapMarker
+            university={u}
+            index={i}
+            key={i}
+            universities={universities}
+            setUniversities={setUniversities}
+          />
         ))}
         {marker && <Marker position={{ lat: location.x, lng: location.y }} />}
       </GMap>

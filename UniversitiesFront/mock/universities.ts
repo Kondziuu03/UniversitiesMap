@@ -22,7 +22,7 @@ export interface University {
   type: UniversityType;
 }
 
-const universities: University[] = [
+const UNIVERSITIES: University[] = [
   {
     name: "University of Warsaw",
     description: "University of Warsaw is the best university in Poland.",
@@ -134,4 +134,4 @@ const universities: University[] = [
   },
 ];
 
-export default universities;
+export default UNIVERSITIES;
