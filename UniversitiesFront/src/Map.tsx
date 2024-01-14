@@ -21,6 +21,7 @@ import {
   faGraduationCap,
   faLocationDot,
   faMicrochip,
+  faPencil,
   faPersonMilitaryRifle,
   faPhone,
   faSackDollar,
@@ -111,7 +112,14 @@ function MapMarker(props: MapMarkerProps) {
       {popup && (
         <InfoWindow anchor={marker} onCloseClick={() => setPopup(false)}>
           <div className="popup">
-            <h2 className="popup__title">{university.name}</h2>
+            <h2 className="popup__title">
+              {university.name}
+              <FontAwesomeIcon
+                icon={faPencil}
+                className="popup__edit"
+                onClick={() => console.log(university.name)}
+              />
+            </h2>
             <span className="popup__description">{university.description}</span>
             <span className="popup__type">
               <FontAwesomeIcon
@@ -158,11 +166,15 @@ interface GoogleMapProps {
     x: number | undefined;
     y: number | undefined;
   }) => void;
+  marker: boolean;
+  setMarker: (marker: boolean) => void;
 }
 
 export default function GoogleMap(props: GoogleMapProps) {
-  const { universities, location, setLocation } = props;
-  const [marker, setMarker] = React.useState(false);
+  const { universities, location, setLocation, marker, setMarker } = props;
+  React.useEffect(() => {
+    // fetch("localhost:5019/api/universities");
+  }, []);
 
   return (
     <APIProvider apiKey={GOOGLE_API_KEY}>
@@ -180,7 +192,7 @@ export default function GoogleMap(props: GoogleMapProps) {
         }}
       >
         {universities.map((u, i) => (
-          <MapMarker university={u} index={i} />
+          <MapMarker university={u} index={i} key={i} />
         ))}
         {marker && <Marker position={{ lat: location.x, lng: location.y }} />}
       </GMap>

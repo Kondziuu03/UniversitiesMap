@@ -1,13 +1,20 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./AddForm.css";
 import useForm from "./useForm";
+import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 interface AddFormProps {
   endpoint: string;
   location: { x: number | undefined; y: number | undefined };
+  setLocation: (location: {
+    x: number | undefined;
+    y: number | undefined;
+  }) => void;
+  setMarker: (marker: boolean) => void;
 }
 
 export default function AddForm(props: AddFormProps) {
-  const { endpoint, location } = props;
+  const { endpoint, location, setMarker, setLocation } = props;
   const { handleSubmit, status, message } = useForm();
 
   if (status === "success") {
@@ -52,17 +59,26 @@ export default function AddForm(props: AddFormProps) {
               type="text"
               name="latitude"
               id="latitude"
-              value={location.x}
+              value={location.x || ""}
             />
           </div>
-          <div>
+          <div className="coords">
             <label htmlFor="longitude">Longitude</label>
             <input
               type="text"
               name="longitude"
               id="longitude"
-              value={location.y}
+              value={location.y || ""}
             />
+            <span className="reset">
+              <FontAwesomeIcon
+                icon={faCircleXmark}
+                onClick={() => {
+                  setMarker(false);
+                  setLocation({ x: undefined, y: undefined });
+                }}
+              />
+            </span>
           </div>
         </div>
         <h4>Address</h4>

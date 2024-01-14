@@ -18,6 +18,7 @@ function App() {
     x: undefined,
     y: undefined,
   });
+  const [marker, setMarker] = React.useState(false);
 
   return (
     <>
@@ -26,8 +27,15 @@ function App() {
         universities={filteredUniversities}
         location={location}
         setLocation={setLocation}
+        marker={marker}
+        setMarker={setMarker}
       />
-      <AddForm endpoint="https://google.com" location={location} />
+      <AddForm
+        endpoint="https://google.com"
+        location={location}
+        setLocation={setLocation}
+        setMarker={setMarker}
+      />
     </>
   );
 }

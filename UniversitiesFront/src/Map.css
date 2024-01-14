@@ -18,6 +18,11 @@
   color: #222;
 }
 
+.popup__edit {
+  margin-left: 10px;
+  cursor: pointer;
+}
+
 .popup__description {
   margin: 0;
   margin-bottom: 0.25rem;
