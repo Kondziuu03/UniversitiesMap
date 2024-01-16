@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./AddForm.css";
 import useForm from "./useForm";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import React from "react";
 
 interface AddFormProps {
   endpoint: string;
@@ -15,34 +16,39 @@ interface AddFormProps {
 
 export default function AddForm(props: AddFormProps) {
   const { endpoint, location, setMarker, setLocation } = props;
-  const { handleSubmit, status, message } = useForm();
-
-  if (status === "success") {
-    return (
-      <>
-        <div>Thank you!</div>
-        <div>{message}</div>
-      </>
-    );
-  }
-  if (status === "error") {
-    return (
-      <>
-        <div>Something bad happened!</div>
-        <div>{message}</div>
-      </>
-    );
-  }
+  const [status, setStatus] = React.useState("");
+  const [message, setMessage] = React.useState("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = new FormData(e.target);
+  };
+  const renderStatus = () => {
+    switch (status) {
+      case "error":
+        return (
+          <>
+            <div>Error!</div>
+            <div>{message}</div>
+          </>
+        );
+      case "loading":
+        return <div className="loading">Loading...</div>;
+      case "success":
+        return (
+          <>
+            <div>Thank you!</div>
+            <div>{message}</div>
+          </>
+        );
+      default:
+        return <button type="submit">Add</button>;
+    }
+  };
 
   return (
     <div className="form">
       <h2>Add university</h2>
-      <form
-        className="add-form"
-        action={endpoint}
-        onSubmit={handleSubmit}
-        method="POST"
-      >
+      <form className="add-form" onSubmit={handleSubmit}>
         <h4>Details</h4>
         <div>
           <div>
@@ -118,11 +124,7 @@ export default function AddForm(props: AddFormProps) {
           </div>
         </div>
 
-        {status !== "loading" ? (
-          <button type="submit">Add</button>
-        ) : (
-          <div className="loading">Loading...</div>
-        )}
+        {renderStatus()}
       </form>
     </div>
   );
