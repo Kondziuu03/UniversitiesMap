@@ -24,8 +24,19 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IUniversityService, UniversityService>();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
+
 var connectionString = builder.Configuration.GetConnectionString("UniversitiesDbConnection");
-builder.Services.AddDbContext<UniversitiesDbContext>(options => 
+builder.Services.AddDbContext<UniversitiesDbContext>(options =>
                 {
                     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
                 });
@@ -38,6 +49,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("AllowAllOrigins");
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseHttpsRedirection();
