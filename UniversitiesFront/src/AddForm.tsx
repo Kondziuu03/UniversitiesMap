@@ -3,6 +3,7 @@ import "./AddForm.css";
 import useForm from "./useForm";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
+import axios from "axios";
 
 interface AddFormProps {
   endpoint: string;
@@ -18,6 +19,12 @@ export default function AddForm(props: AddFormProps) {
   const { endpoint, location, setMarker, setLocation } = props;
   const [status, setStatus] = React.useState("");
   const [message, setMessage] = React.useState("");
+  React.useEffect(() => {
+    axios.get(`http://localhost:5019/api/university`).then((res) => {
+      const persons = res.data;
+      console.log(persons);
+    });
+  }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
