@@ -4,6 +4,7 @@ import "./App.css";
 import GoogleMap from "./Map";
 import { SearchInput } from "./Search";
 import AddForm from "./AddForm";
+import { getUniversities } from "./service";
 
 function App() {
   const [text, setText] = React.useState("");
@@ -20,6 +21,13 @@ function App() {
     y: undefined,
   });
   const [marker, setMarker] = React.useState(false);
+  React.useEffect(() => {
+    getUniversities().then((res) => {
+      const data = res.data;
+      setUniversities(data);
+      console.log(data);
+    });
+  }, []);
 
   return (
     <>
@@ -30,7 +38,6 @@ function App() {
         setLocation={setLocation}
         marker={marker}
         setMarker={setMarker}
-        setUniversities={setUniversities}
       />
       <AddForm
         endpoint="https://google.com"

@@ -82,11 +82,10 @@ interface MapMarkerProps {
   university: University;
   index: number;
   universities: University[];
-  setUniversities: (universities: []) => void;
 }
 
 function MapMarker(props: MapMarkerProps) {
-  const { university, index, universities, setUniversities } = props;
+  const { university, index, universities } = props;
   const [tooltip, setTooltip] = React.useState(false);
   const [popup, setPopup] = React.useState(false);
   const [markerRef, marker] = useMarkerRef();
@@ -234,18 +233,10 @@ interface GoogleMapProps {
   }) => void;
   marker: boolean;
   setMarker: (marker: boolean) => void;
-  setUniversities: (universities: []) => void;
 }
 
 export default function GoogleMap(props: GoogleMapProps) {
-  const {
-    universities,
-    location,
-    setLocation,
-    marker,
-    setMarker,
-    setUniversities,
-  } = props;
+  const { universities, location, setLocation, marker, setMarker } = props;
 
   return (
     <APIProvider apiKey={GOOGLE_API_KEY}>
@@ -268,7 +259,6 @@ export default function GoogleMap(props: GoogleMapProps) {
             index={i}
             key={i}
             universities={universities}
-            setUniversities={setUniversities}
           />
         ))}
         {marker && <Marker position={{ lat: location.x, lng: location.y }} />}
