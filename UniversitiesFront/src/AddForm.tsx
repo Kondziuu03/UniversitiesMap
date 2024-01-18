@@ -3,10 +3,8 @@ import "./AddForm.css";
 import useForm from "./useForm";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
-import axios from "axios";
 
 interface AddFormProps {
-  endpoint: string;
   location: { x: number | undefined; y: number | undefined };
   setLocation: (location: {
     x: number | undefined;
@@ -16,7 +14,7 @@ interface AddFormProps {
 }
 
 export default function AddForm(props: AddFormProps) {
-  const { endpoint, location, setMarker, setLocation } = props;
+  const { location, setMarker, setLocation } = props;
   const [status, setStatus] = React.useState("");
   const [message, setMessage] = React.useState("");
   const handleSubmit = (e) => {

@@ -1,9 +1,9 @@
 export enum UniversityType {
-  Uniwersytet = "Uniwersytet",
-  Politechnika = "Politechnika",
-  Wojskowa = "Wojskowa",
-  Medyczna = "Medyczna",
-  Ekonomiczna = "Ekonomiczna",
+  Technical,
+  University,
+  Medical,
+  Economic,
+  Military,
 }
 
 export interface University {
@@ -36,7 +36,7 @@ const UNIVERSITIES: University[] = [
       street: "Krakowskie Przedmieście 26/28",
       postalCode: "00-927",
     },
-    type: UniversityType.Uniwersytet,
+    type: UniversityType.University,
   },
   {
     name: "Warsaw University of Technology",
@@ -52,7 +52,7 @@ const UNIVERSITIES: University[] = [
       street: "Plac Politechniki 1",
       postalCode: "00-661",
     },
-    type: UniversityType.Politechnika,
+    type: UniversityType.Technical,
   },
   {
     name: "Military University of Technology",
@@ -68,7 +68,7 @@ const UNIVERSITIES: University[] = [
       street: "Kaliskiego 2",
       postalCode: "00-908",
     },
-    type: UniversityType.Wojskowa,
+    type: UniversityType.Military,
   },
   {
     name: "Medical University of Warsaw",
@@ -84,7 +84,7 @@ const UNIVERSITIES: University[] = [
       street: "Żwirki i Wigury 61",
       postalCode: "02-091",
     },
-    type: UniversityType.Medyczna,
+    type: UniversityType.Medical,
   },
   {
     name: "Warsaw School of Economics",
@@ -99,7 +99,7 @@ const UNIVERSITIES: University[] = [
       street: "Al. Niepodległości 162",
       postalCode: "02-554",
     },
-    type: UniversityType.Ekonomiczna,
+    type: UniversityType.Economic,
   },
   {
     name: "Politechnika Gdańska",
@@ -115,7 +115,7 @@ const UNIVERSITIES: University[] = [
       street: "Narutowicza 11/12",
       postalCode: "80-233",
     },
-    type: UniversityType.Politechnika,
+    type: UniversityType.Technical,
   },
   {
     name: "Politechnika Lubelska",
@@ -130,7 +130,7 @@ const UNIVERSITIES: University[] = [
       street: "Nadbystrzycka 38A",
       postalCode: "20-618",
     },
-    type: UniversityType.Politechnika,
+    type: UniversityType.Technical,
   },
 ];
 

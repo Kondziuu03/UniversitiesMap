@@ -29,34 +29,34 @@ import {
   faStaffSnake,
 } from "@fortawesome/free-solid-svg-icons";
 
-function renderIcon(type: string) {
+function renderIcon(type: UniversityType) {
   switch (type) {
-    case UniversityType.Politechnika:
+    case UniversityType.Technical:
       return tech;
-    case UniversityType.Uniwersytet:
+    case UniversityType.University:
       return uni;
-    case UniversityType.Medyczna:
+    case UniversityType.Medical:
       return medic;
-    case UniversityType.Ekonomiczna:
+    case UniversityType.Economic:
       return eco;
-    case UniversityType.Wojskowa:
+    case UniversityType.Military:
       return military;
     default:
       return uni;
   }
 }
 
-function renderFAIcon(type: string) {
+function renderFAIcon(type: UniversityType) {
   switch (type) {
-    case UniversityType.Politechnika:
+    case UniversityType.Technical:
       return faMicrochip;
-    case UniversityType.Uniwersytet:
+    case UniversityType.University:
       return faGraduationCap;
-    case UniversityType.Medyczna:
+    case UniversityType.Medical:
       return faStaffSnake;
-    case UniversityType.Ekonomiczna:
+    case UniversityType.Economic:
       return faSackDollar;
-    case UniversityType.Wojskowa:
+    case UniversityType.Military:
       return faPersonMilitaryRifle;
     default:
       return faGraduationCap;
@@ -136,7 +136,6 @@ function MapMarker(props: MapMarkerProps) {
                     uni.phoneNumber = phoneNumberRef.current?.value;
                     uni.email = emailRef.current?.value;
                     universities[index] = uni;
-                    setUniversities([...universities]);
                     setEdit(false);
                   }}
                 />

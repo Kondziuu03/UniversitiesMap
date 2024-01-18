@@ -40,7 +40,6 @@ function App() {
         setMarker={setMarker}
       />
       <AddForm
-        endpoint="https://google.com"
         location={location}
         setLocation={setLocation}
         setMarker={setMarker}
