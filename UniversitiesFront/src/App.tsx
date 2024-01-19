@@ -8,7 +8,7 @@ import { getUniversities } from "./service";
 
 function App() {
   const [text, setText] = React.useState("");
-  const [universities, setUniversities] = React.useState(UNIVERSITIES);
+  const [universities, setUniversities] = React.useState([]);
   const filteredUniversities = React.useMemo(() => {
     return universities.filter(
       (university) =>
@@ -43,6 +43,7 @@ function App() {
         location={location}
         setLocation={setLocation}
         setMarker={setMarker}
+        setUniversities={setUniversities}
       />
     </>
   );

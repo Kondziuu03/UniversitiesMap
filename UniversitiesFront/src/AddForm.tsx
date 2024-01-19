@@ -3,6 +3,8 @@ import "./AddForm.css";
 import useForm from "./useForm";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
+import { createUniversity } from "./service";
+import { University } from "../mock/universities";
 
 interface AddFormProps {
   location: { x: number | undefined; y: number | undefined };
@@ -11,15 +13,67 @@ interface AddFormProps {
     y: number | undefined;
   }) => void;
   setMarker: (marker: boolean) => void;
+  setUniversities: (universities: University[]) => void;
+}
+
+function isJsonString(str: any) {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
 }
 
 export default function AddForm(props: AddFormProps) {
-  const { location, setMarker, setLocation } = props;
+  const { location, setMarker, setLocation, setUniversities } = props;
   const [status, setStatus] = React.useState("");
   const [message, setMessage] = React.useState("");
+  React.useEffect(() => {
+    setStatus("");
+    setMessage("");
+  }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = new FormData(e.target);
+    const convertedObject = {};
+
+    new FormData(e.target).forEach((value, key) => {
+      convertedObject[key] = isJsonString(value) ? JSON.parse(value) : value;
+    });
+    const data = { ...convertedObject };
+    convertedObject["address"] = {
+      city: convertedObject["city"],
+      street: convertedObject["street"],
+      postalCode: convertedObject["postalCode"],
+    };
+    delete convertedObject["city"];
+    delete convertedObject["street"];
+    delete convertedObject["postalCode"];
+
+    convertedObject["phoneNumber"] = convertedObject["phoneNumber"].toString();
+
+    console.log(data);
+    createUniversity(convertedObject).then((res) => {
+      console.log(res.status);
+      if (res.status === 201) {
+        setUniversities((prev: University[]) => [...prev, convertedObject]);
+        setLocation({ x: undefined, y: undefined });
+        setMarker(false);
+        setStatus("success");
+        setMessage("University added!");
+        setTimeout(() => {
+          setStatus("");
+          setMessage("");
+        }, 5000);
+      } else {
+        setStatus("error");
+        setMessage("Error!");
+        setTimeout(() => {
+          setStatus("");
+          setMessage("");
+        }, 5000);
+      }
+    });
   };
   const renderStatus = () => {
     switch (status) {
@@ -86,6 +140,31 @@ export default function AddForm(props: AddFormProps) {
             </span>
           </div>
         </div>
+        <h4>Info</h4>
+        <div>
+          <div>
+            <label htmlFor="website">Website</label>
+            <input type="text" name="websiteUrl" id="website" />
+          </div>
+          <div>
+            <label htmlFor="phone">Phone</label>
+            <input type="text" name="phoneNumber" id="phone" />
+          </div>
+          <div>
+            <label htmlFor="email">Email</label>
+            <input type="text" name="email" id="email" />
+          </div>
+          <div>
+            <label htmlFor="category">Category</label>
+            <select name="category" id="category">
+              <option value="0">Techniczna</option>
+              <option value="1">Uniwersytet</option>
+              <option value="2">Medyczna</option>
+              <option value="3">Ekonomiczna</option>
+              <option value="4">Wojskowa</option>
+            </select>
+          </div>
+        </div>
         <h4>Address</h4>
         <div>
           <div>
@@ -98,28 +177,11 @@ export default function AddForm(props: AddFormProps) {
           </div>
           <div>
             <label htmlFor="zip">Zip</label>
-            <input type="text" name="zip" id="zip" />
+            <input type="text" name="postalCode" id="zip" />
           </div>
           <div>
             <label htmlFor="country">Country</label>
-            <input
-              type="text"
-              name="country"
-              id="country"
-              value="Poland"
-              disabled
-            />
-          </div>
-        </div>
-        <h4>Info</h4>
-        <div>
-          <div>
-            <label htmlFor="website">Website</label>
-            <input type="text" name="website" id="website" />
-          </div>
-          <div>
-            <label htmlFor="phone">Phone</label>
-            <input type="text" name="phone" id="phone" />
+            <input type="text" id="country" value="Poland" disabled />
           </div>
         </div>
 

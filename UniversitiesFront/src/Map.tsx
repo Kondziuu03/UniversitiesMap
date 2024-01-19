@@ -28,6 +28,7 @@ import {
   faSackDollar,
   faStaffSnake,
 } from "@fortawesome/free-solid-svg-icons";
+import { updateUniversity } from "./service";
 
 function renderIcon(type: UniversityType) {
   switch (type) {
@@ -60,6 +61,23 @@ function renderFAIcon(type: UniversityType) {
       return faPersonMilitaryRifle;
     default:
       return faGraduationCap;
+  }
+}
+
+function renderCategory(type: UniversityType) {
+  switch (type) {
+    case UniversityType.Technical:
+      return "Techniczna";
+    case UniversityType.University:
+      return "Uniwersytet";
+    case UniversityType.Medical:
+      return "Medyczna";
+    case UniversityType.Economic:
+      return "Ekonomiczna";
+    case UniversityType.Military:
+      return "Wojskowa";
+    default:
+      return "Uniwersytet";
   }
 }
 
@@ -113,7 +131,7 @@ function MapMarker(props: MapMarkerProps) {
           document.getElementById(university.name)?.remove();
         }}
         position={{ lat: university.latitude, lng: university.longitude }}
-        icon={renderIcon(university.type)}
+        icon={renderIcon(university.category)}
         key={index}
         onClick={() => setPopup(true)}
       />
@@ -128,14 +146,16 @@ function MapMarker(props: MapMarkerProps) {
                   className="popup__edit"
                   onClick={() => {
                     const uni = universities.find(
-                      (u) => u.name === university.name
+                      (u) => u.id === university.id
                     )!;
                     const index = universities.indexOf(uni);
                     uni.description = descriptionRef.current?.value;
                     uni.websiteUrl = websiteUrlRef.current?.value;
                     uni.phoneNumber = phoneNumberRef.current?.value;
                     uni.email = emailRef.current?.value;
-                    universities[index] = uni;
+                    updateUniversity(uni.id, uni).then((res) => {
+                      universities[index] = uni;
+                    });
                     setEdit(false);
                   }}
                 />
@@ -162,10 +182,10 @@ function MapMarker(props: MapMarkerProps) {
             )}
             <span className="popup__type">
               <FontAwesomeIcon
-                icon={renderFAIcon(university.type)}
+                icon={renderFAIcon(university.category)}
                 className="popup__icon type"
               />
-              {university.type}
+              {renderCategory(university.category)}
             </span>
             <span className="popup__address">
               <FontAwesomeIcon icon={faLocationDot} className="popup__icon" />
@@ -236,6 +256,11 @@ interface GoogleMapProps {
 
 export default function GoogleMap(props: GoogleMapProps) {
   const { universities, location, setLocation, marker, setMarker } = props;
+  React.useEffect(() => {
+    if (location.x && !location.y) {
+      setMarker(false);
+    }
+  }, [location, setMarker]);
 
   return (
     <APIProvider apiKey={GOOGLE_API_KEY}>
