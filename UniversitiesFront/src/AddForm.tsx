@@ -44,7 +44,7 @@ export default function AddForm(props: AddFormProps) {
     convertedObject["address"] = {
       city: convertedObject["city"],
       street: convertedObject["street"],
-      postalCode: convertedObject["postalCode"],
+      postalCode: convertedObject["postalCode"].toString(),
     };
     delete convertedObject["city"];
     delete convertedObject["street"];
