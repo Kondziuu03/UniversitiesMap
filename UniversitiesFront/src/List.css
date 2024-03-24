@@ -1,0 +1,10 @@
+.list {
+  position: absolute;
+  right: 100px;
+  max-width: 400px;
+  max-height: 800px;
+  overflow-y: scroll;
+  font-size: 0.75em;
+  background-color: #555;
+  border-radius: 5px;
+}

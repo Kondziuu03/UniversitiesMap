@@ -1,20 +1,7 @@
-import React from "react";
-import {
-  APIProvider,
-  Map as GMap,
-  InfoWindow,
-  Marker,
-  useMarkerRef,
-} from "@vis.gl/react-google-maps";
-import { GOOGLE_API_KEY } from "../env";
-import tech from "./assets/icons/tech.png";
-import uni from "./assets/icons/uni.png";
-import medic from "./assets/icons/medic.png";
-import eco from "./assets/icons/eco.png";
-import military from "./assets/icons/military.png";
-import { University, UniversityType } from "../mock/universities";
 import "./Map.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import React from "react";
+
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import {
   faCheck,
@@ -28,6 +15,22 @@ import {
   faSackDollar,
   faStaffSnake,
 } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  APIProvider,
+  InfoWindow,
+  Map as GMap,
+  Marker,
+  useMarkerRef,
+} from "@vis.gl/react-google-maps";
+
+import { GOOGLE_API_KEY } from "../env";
+import { University, UniversityType } from "../mock/universities";
+import eco from "./assets/icons/eco.png";
+import medic from "./assets/icons/medic.png";
+import military from "./assets/icons/military.png";
+import tech from "./assets/icons/tech.png";
+import uni from "./assets/icons/uni.png";
 import { updateUniversity } from "./service";
 
 function renderIcon(type: UniversityType) {
@@ -276,6 +279,7 @@ export default function GoogleMap(props: GoogleMapProps) {
           setLocation({ x: e.detail.latLng.lat, y: e.detail.latLng.lng });
           setMarker(true);
         }}
+        className="map"
       >
         {universities.map((u, i) => (
           <MapMarker
