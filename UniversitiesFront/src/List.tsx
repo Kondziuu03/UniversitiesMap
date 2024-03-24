@@ -1,6 +1,7 @@
 import "./List.css";
 
 import { University } from "../mock/universities";
+import ListItem from "./ListItem";
 
 interface ListProps {
   universities: University[];
@@ -12,15 +13,7 @@ export default function List(props: ListProps) {
   return (
     <div className="list">
       {universities.map((university) => (
-        <div key={university.id} className="list__item">
-          <h2>{university.name}</h2>
-          <p>{university.description}</p>
-          <p>
-            {university.address.street}, {university.address.city}
-          </p>
-          <p>{university.phoneNumber}</p>
-          <p>{university.email}</p>
-        </div>
+        <ListItem key={university.id} university={university} />
       ))}
     </div>
   );

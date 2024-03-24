@@ -1,16 +1,20 @@
-import React from "react";
-import UNIVERSITIES from "../mock/universities";
 import "./App.css";
+
+import React from "react";
+
+import UNIVERSITIES from "../mock/universities";
+import AddForm from "./AddForm";
+import List from "./List";
 import GoogleMap from "./Map";
 import { SearchInput } from "./Search";
-import AddForm from "./AddForm";
 import { getUniversities } from "./service";
 
 function App() {
   const [text, setText] = React.useState("");
   const [universities, setUniversities] = React.useState([]);
   const filteredUniversities = React.useMemo(() => {
-    return universities.filter(
+    return UNIVERSITIES.filter(
+      // universities
       (university) =>
         university.name.toLowerCase().includes(text.toLowerCase()) ||
         university.description.toLowerCase().includes(text.toLowerCase())
@@ -32,6 +36,7 @@ function App() {
   return (
     <>
       <SearchInput setText={setText} />
+      <List universities={filteredUniversities} />
       <GoogleMap
         universities={filteredUniversities}
         location={location}
