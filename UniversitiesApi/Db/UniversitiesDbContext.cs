@@ -11,6 +11,7 @@ public class UniversitiesDbContext : DbContext
 
     public DbSet<Address> Addresses { get; set; }
     public DbSet<University> Universities { get; set; }
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

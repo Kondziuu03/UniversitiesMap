@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UniversitiesApi.Models;
 using UniversitiesApi.Services.Interfaces;
@@ -6,6 +7,7 @@ namespace UniversitiesApi.Controllers;
 
 [ApiController]
 [Route("api/university")]
+[Authorize]
 public class UniversityController : ControllerBase
 {
     private readonly IUniversityService _universityService;
@@ -16,6 +18,7 @@ public class UniversityController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [AllowAnonymous]
     public ActionResult<UniversityDto> Get([FromRoute] int id)
     {
         var university = _universityService.Get(id);
@@ -24,6 +27,7 @@ public class UniversityController : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public ActionResult<IEnumerable<UniversityDto>> GetAll([FromQuery]string? category)
     {
         var universities = _universityService.GetAll(category ?? string.Empty);
