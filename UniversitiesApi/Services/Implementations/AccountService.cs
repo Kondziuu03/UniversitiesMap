@@ -13,7 +13,7 @@ namespace UniversitiesApi.Services.Implementations;
 
 public class AccountService : IAccountService
 {
-    private readonly UniversitiesDbContext _context;
+    private readonly UniversitiesDbContext _dbContext;
     private readonly IPasswordHasher<User> _passwordHasher;
     private readonly AuthenticationSettings _authenticationSettings;
 
@@ -21,14 +21,14 @@ public class AccountService : IAccountService
         IPasswordHasher<User> passwordHasher,
         AuthenticationSettings authenticationSettings)
     {
-        _context = context;
+        _dbContext = context;
         _passwordHasher = passwordHasher;
         _authenticationSettings = authenticationSettings;
     }
 
     public string GenerateJwt(LoginDto dto)
     {
-        var user = _context.Users
+        var user = _dbContext.Users
                 .FirstOrDefault(x => x.Email == dto.Email);
 
         if (user == null)
@@ -70,7 +70,7 @@ public class AccountService : IAccountService
         var hashedPassword = _passwordHasher.HashPassword(newUser, dto.Password);
         newUser.PasswordHash = hashedPassword;
 
-        _context.Users.Add(newUser);
-        _context.SaveChanges();
+        _dbContext.Users.Add(newUser);
+        _dbContext.SaveChanges();
     }
 }

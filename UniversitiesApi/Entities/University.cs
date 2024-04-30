@@ -15,4 +15,5 @@ public class University
     public CategoryEnum Category { get; set; }
     public int AddressId { get; set; }
     public Address Address { get; set; }
+    public List<Rate> Rates { get; set; }
 }
