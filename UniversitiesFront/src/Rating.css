@@ -1,0 +1,24 @@
+.rating {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.star {
+  position: relative;
+}
+
+.rating__icon {
+  color: #f8d64e;
+  cursor: pointer;
+}
+
+.halfstar {
+  opacity: 0;
+}
+
+.halfstar:hover {
+  opacity: 1;
+}

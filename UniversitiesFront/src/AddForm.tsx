@@ -1,10 +1,13 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./AddForm.css";
-import useForm from "./useForm";
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+
 import React from "react";
-import { createUniversity } from "./service";
+
+import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { University } from "../mock/universities";
+import { createUniversity } from "./service";
+import UserContext from "./UserContext";
 
 interface AddFormProps {
   location: { x: number | undefined; y: number | undefined };
@@ -29,12 +32,23 @@ export default function AddForm(props: AddFormProps) {
   const { location, setMarker, setLocation, setUniversities } = props;
   const [status, setStatus] = React.useState("");
   const [message, setMessage] = React.useState("");
+  const user = React.useContext(UserContext);
+  console.log(user);
   React.useEffect(() => {
     setStatus("");
     setMessage("");
   }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!user) {
+      setStatus("error");
+      setMessage("You need to be logged in!");
+      setTimeout(() => {
+        setStatus("");
+        setMessage("");
+      }, 5000);
+      return;
+    }
     const convertedObject = {};
 
     new FormData(e.target).forEach((value, key) => {
@@ -52,7 +66,6 @@ export default function AddForm(props: AddFormProps) {
 
     convertedObject["phoneNumber"] = convertedObject["phoneNumber"].toString();
 
-    console.log(data);
     createUniversity(convertedObject).then((res) => {
       console.log(res.status);
       if (res.status === 201) {
@@ -94,7 +107,11 @@ export default function AddForm(props: AddFormProps) {
           </>
         );
       default:
-        return <button type="submit">Add</button>;
+        return user ? (
+          <button type="submit">Add</button>
+        ) : (
+          <div>Please login to add</div>
+        );
     }
   };
 

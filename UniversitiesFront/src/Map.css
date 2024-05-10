@@ -19,6 +19,7 @@
   flex-direction: column;
   text-align: left;
   color: #222;
+  height: 250px;
 }
 
 .popup__edit {
@@ -43,6 +44,10 @@
   font-size: 14px;
   font-weight: bold;
   margin-bottom: 0.5rem;
+}
+
+.popup__rating {
+  margin-top: 1rem;
 }
 
 .type {

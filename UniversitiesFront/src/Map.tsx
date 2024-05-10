@@ -31,7 +31,9 @@ import medic from "./assets/icons/medic.png";
 import military from "./assets/icons/military.png";
 import tech from "./assets/icons/tech.png";
 import uni from "./assets/icons/uni.png";
+import Rating from "./Rating";
 import { updateUniversity } from "./service";
+import UserContext from "./UserContext";
 
 function renderIcon(type: UniversityType) {
   switch (type) {
@@ -115,6 +117,7 @@ function MapMarker(props: MapMarkerProps) {
   const websiteUrlRef = React.useRef<HTMLInputElement>(null);
   const phoneNumberRef = React.useRef<HTMLInputElement>(null);
   const emailRef = React.useRef<HTMLInputElement>(null);
+  const user = React.useContext(UserContext);
 
   return (
     <>
@@ -163,13 +166,15 @@ function MapMarker(props: MapMarkerProps) {
                   }}
                 />
               ) : (
-                <FontAwesomeIcon
-                  icon={faPencil}
-                  className="popup__edit"
-                  onClick={() => {
-                    setEdit(true);
-                  }}
-                />
+                user && (
+                  <FontAwesomeIcon
+                    icon={faPencil}
+                    className="popup__edit"
+                    onClick={() => {
+                      setEdit(true);
+                    }}
+                  />
+                )
               )}
             </h2>
             {edit ? (
@@ -235,6 +240,9 @@ function MapMarker(props: MapMarkerProps) {
               ) : (
                 <a href={`mailto:${university.email}`}>{university.email}</a>
               )}
+            </span>
+            <span className="popup__rating">
+              <Rating />
             </span>
           </div>
         </InfoWindow>
