@@ -33,7 +33,6 @@ export default function AddForm(props: AddFormProps) {
   const [status, setStatus] = React.useState("");
   const [message, setMessage] = React.useState("");
   const user = React.useContext(UserContext);
-  console.log(user);
   React.useEffect(() => {
     setStatus("");
     setMessage("");
