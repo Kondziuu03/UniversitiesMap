@@ -8,6 +8,7 @@ import List from "./List";
 import GoogleMap from "./Map";
 import { SearchInput } from "./Search";
 import { getUniversities } from "./service";
+import UserButton from "./UserButton";
 
 function App() {
   const [text, setText] = React.useState("");
@@ -47,6 +48,7 @@ function App() {
 
   return (
     <>
+      <UserButton />
       <SearchInput setText={setText} />
       <List universities={filteredUniversities} />
       <GoogleMap
