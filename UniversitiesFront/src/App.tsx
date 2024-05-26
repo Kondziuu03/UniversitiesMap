@@ -15,7 +15,6 @@ function App() {
   const [universities, setUniversities] = React.useState([]);
   const filteredUniversities = React.useMemo(() => {
     return universities.filter(
-      // universities
       (university: University) =>
         university.name.toLowerCase().includes(text.toLowerCase()) ||
         university.description.toLowerCase().includes(text.toLowerCase())
@@ -31,7 +30,7 @@ function App() {
         console.error("Error", e);
         setUniversities(UNIVERSITIES);
       });
-  });
+  }, []);
 
   const [location, setLocation] = React.useState({
     x: undefined,
