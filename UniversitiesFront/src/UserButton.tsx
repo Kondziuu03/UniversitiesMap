@@ -9,12 +9,15 @@ import UserContext from "./UserContext";
 
 export default function UserButton() {
   const user = React.useContext(UserContext);
-  const [state, setState] = React.useState("login");
+  const [state, setState] = React.useState("");
+  const popupRef = React.useRef<HTMLDivElement>(document.createElement("div"));
   React.useEffect(() => {
-    if (user) {
-      setState("profile");
+    if (state !== "") {
+      popupRef.current.classList.add("active");
+      return;
     }
-  }, [user]);
+    popupRef.current.classList.remove("active");
+  }, [state]);
 
   return (
     <div className="user-button">
@@ -33,15 +36,19 @@ export default function UserButton() {
             setState("register");
             return;
           }
-          if (state === "register") {
+          if (state === "register" || state === "") {
             setState("login");
             return;
           }
         }}
       >
-        {user ? `${user.firstName}'s profile` : "Login"}
+        {user
+          ? `${user.firstName}'s profile`
+          : state === "login"
+          ? "Register"
+          : "Login"}
       </button>
-      <div className="popup">
+      <div className="popup" ref={popupRef}>
         {state === "login" ? (
           <Login />
         ) : state === "register" ? (

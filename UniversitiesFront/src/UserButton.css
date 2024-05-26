@@ -4,4 +4,17 @@
 
 .user-button .popup {
   position: absolute;
+  background-color: #333;
+  left: 50%;
+  translate: -50%;
+  min-width: 500px;
+  min-height: 200px;
+  z-index: 1;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.3s ease-in-out;
+}
+
+.user-button .popup.active {
+  transform: scaleY(1);
 }

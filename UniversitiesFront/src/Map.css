@@ -14,7 +14,7 @@
   border-radius: 10px;
 }
 
-.popup {
+.map .popup {
   display: flex;
   flex-direction: column;
   text-align: left;
