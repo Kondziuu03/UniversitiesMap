@@ -18,3 +18,11 @@
 .user-button .popup.active {
   transform: scaleY(1);
 }
+
+.popup__close {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}

@@ -49,6 +49,9 @@ export default function UserButton() {
           : "Login"}
       </button>
       <div className="popup" ref={popupRef}>
+        <span className="popup__close" onClick={() => setState("")}>
+          x
+        </span>
         {state === "login" ? (
           <Login />
         ) : state === "register" ? (

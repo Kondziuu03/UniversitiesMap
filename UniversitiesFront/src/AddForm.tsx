@@ -6,7 +6,7 @@ import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { University } from "../mock/universities";
-import { createUniversity } from "./service";
+import { CreateUniversity, createUniversity } from "./service";
 import UserContext from "./UserContext";
 
 interface AddFormProps {
@@ -48,12 +48,24 @@ export default function AddForm(props: AddFormProps) {
       }, 5000);
       return;
     }
-    const convertedObject = {};
+    const convertedObject: CreateUniversity = {
+      id: 0,
+      name: "",
+      description: "",
+      latitude: 0,
+      longitude: 0,
+      websiteUrl: "",
+      category: 0,
+      email: "",
+      phoneNumber: "",
+      address: { city: "", street: "", postalCode: "" },
+    };
 
     new FormData(e.target).forEach((value, key) => {
-      convertedObject[key] = isJsonString(value) ? JSON.parse(value) : value;
+      convertedObject[key] = isJsonString(value)
+        ? JSON.parse(value as string)
+        : value;
     });
-    const data = { ...convertedObject };
     convertedObject["address"] = {
       city: convertedObject["city"],
       street: convertedObject["street"],
@@ -65,8 +77,7 @@ export default function AddForm(props: AddFormProps) {
 
     convertedObject["phoneNumber"] = convertedObject["phoneNumber"].toString();
 
-    createUniversity(convertedObject).then((res) => {
-      console.log(res.status);
+    createUniversity(convertedObject as CreateUniversity).then((res) => {
       if (res.status === 201) {
         setUniversities((prev: University[]) => [...prev, convertedObject]);
         setLocation({ x: undefined, y: undefined });

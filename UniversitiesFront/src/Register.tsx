@@ -1,9 +1,13 @@
 export default function Register() {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
+
   return (
     <div className="register">
       <div className="register__form">
         <h1 className="register__title">Register</h1>
-        <form className="register__form">
+        <form className="register__form" onSubmit={handleSubmit}>
           <input
             type="text"
             className="register__input"
