@@ -2,17 +2,18 @@ import "./App.css";
 
 import React from "react";
 
-import UNIVERSITIES, { University } from "../mock/universities";
 import AddForm from "./AddForm";
 import List from "./List";
 import GoogleMap from "./Map";
+import UNIVERSITIES, { University } from "./mock/universities";
+import { MOCK_USER } from "./mock/user";
 import { SearchInput } from "./Search";
 import { getUniversities } from "./service";
 import UserButton from "./UserButton";
 import UserContext, { User } from "./UserContext";
 
 function App() {
-  const [user, setUser] = React.useState<User | undefined>(undefined);
+  const [user, setUser] = React.useState<User | undefined>(MOCK_USER);
   const [text, setText] = React.useState("");
   const [universities, setUniversities] = React.useState([]);
   const filteredUniversities = React.useMemo(() => {

@@ -1,7 +1,7 @@
 import "./List.css";
 
-import { University } from "../mock/universities";
 import ListItem from "./ListItem";
+import { University } from "./mock/universities";
 
 interface ListProps {
   universities: University[];

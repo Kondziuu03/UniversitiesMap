@@ -25,12 +25,12 @@ import {
 } from "@vis.gl/react-google-maps";
 
 import { GOOGLE_API_KEY } from "../env";
-import { University, UniversityType } from "../mock/universities";
 import eco from "./assets/icons/eco.png";
 import medic from "./assets/icons/medic.png";
 import military from "./assets/icons/military.png";
 import tech from "./assets/icons/tech.png";
 import uni from "./assets/icons/uni.png";
+import { University, UniversityType } from "./mock/universities";
 import Rating from "./Rating";
 import { updateUniversity } from "./service";
 import UserContext from "./UserContext";

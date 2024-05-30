@@ -14,7 +14,7 @@ interface StarsProps {
   isHovered: boolean;
 }
 
-function Stars(props: StarsProps) {
+const Stars = React.forwardRef((props: StarsProps, ref) => {
   const { isHovered } = props;
   const [rating, setRating] = React.useState(Array(MAX_RATING).fill(false));
   const [final, setFinal] = React.useState(-1);
@@ -24,72 +24,98 @@ function Stars(props: StarsProps) {
     return "Please login to rate";
   }
 
-  return rating.map((_, i) => {
-    return (
-      <div className="star">
-        {rating.lastIndexOf(true) >= i ? (
-          <FontAwesomeIcon
-            icon={faStar}
-            className="rating__icon"
-            onMouseEnter={() =>
-              setRating((prev) => {
-                prev.fill(false);
-                prev[i] = true;
-                return [...prev];
-              })
-            }
-            onMouseLeave={() =>
-              setRating((prev) => {
-                prev[i] = false;
-                if (final !== -1) {
-                  prev[final] = true;
+  return (
+    <div className="stars" ref={ref}>
+      {rating.map((_, i) => {
+        return (
+          <div className="star">
+            {rating.lastIndexOf(true) >= i ? (
+              <FontAwesomeIcon
+                icon={faStar}
+                className="rating__icon selected"
+                onMouseEnter={() =>
+                  setRating((prev) => {
+                    prev.fill(false);
+                    prev[i] = true;
+                    return [...prev];
+                  })
                 }
-                return [...prev];
-              })
-            }
-            onMouseDown={() => {
-              setFinal(i);
-            }}
-          />
-        ) : (
-          <FontAwesomeIcon
-            icon={faStarOutline}
-            className="rating__icon"
-            onMouseEnter={() =>
-              setRating((prev) => {
-                prev.fill(false);
-                prev[i] = true;
-                return [...prev];
-              })
-            }
-            onMouseLeave={() =>
-              setRating((prev) => {
-                prev[i] = false;
-                if (final !== -1 && !isHovered) {
-                  prev[final] = true;
+                onMouseLeave={() =>
+                  setRating((prev) => {
+                    prev[i] = false;
+                    if (final !== -1) {
+                      prev[final] = true;
+                    }
+                    return [...prev];
+                  })
                 }
-                return [...prev];
-              })
-            }
-            onMouseDown={() => {
-              setFinal(i);
-            }}
-          />
-        )}
-      </div>
-    );
-  });
-}
+                onMouseDown={() => {
+                  setFinal(i);
+                }}
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faStarOutline}
+                className="rating__icon"
+                onMouseEnter={() =>
+                  setRating((prev) => {
+                    prev.fill(false);
+                    prev[i] = true;
+                    return [...prev];
+                  })
+                }
+                onMouseLeave={() =>
+                  setRating((prev) => {
+                    prev[i] = false;
+                    if (final !== -1 && !isHovered) {
+                      prev[final] = true;
+                    }
+                    return [...prev];
+                  })
+                }
+                onMouseDown={() => {
+                  setFinal(i);
+                }}
+              />
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+});
 
 export default function Rating() {
   const [isHovered, setIsHovered] = React.useState(false);
+  const starsRef = React.useRef<HTMLDivElement>(document.createElement("div"));
+  const commentRef = React.useRef<HTMLInputElement>(
+    document.createElement("input")
+  );
+
   return (
     <div
       className="rating"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Stars isHovered={isHovered} />
+      <Stars isHovered={isHovered} ref={starsRef} />
+      <input
+        type="text"
+        name="comment"
+        placeholder="Comment"
+        ref={commentRef}
+      />
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+
+          const rating = starsRef.current.querySelectorAll(".selected").length;
+          const comment = commentRef.current.value;
+          console.log(rating, comment);
+        }}
+      >
+        Rate
+      </button>
     </div>
   );
 }

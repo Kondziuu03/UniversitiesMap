@@ -1,10 +1,15 @@
 .rating {
   display: flex;
+  flex-direction: column;
   align-items: center;
   font-size: 1.5rem;
   width: max-content;
   margin: 0;
   padding: 0;
+}
+
+.rating .stars {
+  display: flex;
 }
 
 .star {
@@ -22,4 +27,10 @@
 
 .halfstar:hover {
   opacity: 1;
+}
+
+.rating button {
+  border: none;
+  font-size: 0.75rem;
+  cursor: pointer;
 }

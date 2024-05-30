@@ -1,4 +1,4 @@
-import { User } from "../src/UserContext";
+import { User } from "../UserContext";
 
 export const MOCK_USER: User = {
   email: "mail@email.com",

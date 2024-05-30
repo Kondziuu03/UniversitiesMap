@@ -5,7 +5,7 @@ import React from "react";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { University } from "../mock/universities";
+import { University } from "./mock/universities";
 import { CreateUniversity, createUniversity } from "./service";
 import UserContext from "./UserContext";
 
