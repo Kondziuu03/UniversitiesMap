@@ -3,8 +3,11 @@ import React from "react";
 import UserContext from "./UserContext";
 
 export default function Profile() {
-  const user = React.useContext(UserContext)!;
+  const { user } = React.useContext(UserContext)!;
 
+  if (!user) {
+    return "Please login to view your profile";
+  }
   return (
     <div className="profile">
       <div className="profile__info">

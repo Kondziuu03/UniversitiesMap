@@ -9,8 +9,10 @@ import GoogleMap from "./Map";
 import { SearchInput } from "./Search";
 import { getUniversities } from "./service";
 import UserButton from "./UserButton";
+import UserContext, { User } from "./UserContext";
 
 function App() {
+  const [user, setUser] = React.useState<User | undefined>(undefined);
   const [text, setText] = React.useState("");
   const [universities, setUniversities] = React.useState([]);
   const filteredUniversities = React.useMemo(() => {
@@ -46,7 +48,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <UserContext.Provider value={{ user, setUser }}>
       <UserButton />
       <SearchInput setText={setText} />
       <List universities={filteredUniversities} />
@@ -63,7 +65,7 @@ function App() {
         setMarker={setMarker}
         setUniversities={setUniversities}
       />
-    </>
+    </UserContext.Provider>
   );
 }
 

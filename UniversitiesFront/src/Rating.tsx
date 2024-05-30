@@ -18,7 +18,7 @@ function Stars(props: StarsProps) {
   const { isHovered } = props;
   const [rating, setRating] = React.useState(Array(MAX_RATING).fill(false));
   const [final, setFinal] = React.useState(-1);
-  const user = React.useContext(UserContext);
+  const { user } = React.useContext(UserContext);
 
   if (!user) {
     return "Please login to rate";

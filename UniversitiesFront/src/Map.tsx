@@ -117,7 +117,7 @@ function MapMarker(props: MapMarkerProps) {
   const websiteUrlRef = React.useRef<HTMLInputElement>(null);
   const phoneNumberRef = React.useRef<HTMLInputElement>(null);
   const emailRef = React.useRef<HTMLInputElement>(null);
-  const user = React.useContext(UserContext);
+  const { user } = React.useContext(UserContext);
 
   return (
     <>

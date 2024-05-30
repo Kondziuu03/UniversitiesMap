@@ -32,7 +32,7 @@ export default function AddForm(props: AddFormProps) {
   const { location, setMarker, setLocation, setUniversities } = props;
   const [status, setStatus] = React.useState("");
   const [message, setMessage] = React.useState("");
-  const user = React.useContext(UserContext);
+  const { user } = React.useContext(UserContext);
   React.useEffect(() => {
     setStatus("");
     setMessage("");

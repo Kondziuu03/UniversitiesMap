@@ -8,7 +8,7 @@ import Register from "./Register";
 import UserContext from "./UserContext";
 
 export default function UserButton() {
-  const user = React.useContext(UserContext);
+  const { user } = React.useContext(UserContext);
   const [state, setState] = React.useState("");
   const popupRef = React.useRef<HTMLDivElement>(document.createElement("div"));
   React.useEffect(() => {
