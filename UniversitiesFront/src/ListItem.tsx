@@ -1,6 +1,7 @@
 import "./ListItem.css";
 
 import { University } from "./mock/universities";
+import Rates from "./Rates";
 import Rating from "./Rating";
 
 interface ListProps {
@@ -19,7 +20,8 @@ export default function ListItem(props: ListProps) {
       </p>
       <p>{university.phoneNumber}</p>
       <p>{university.email}</p>
-      <Rating />
+      <Rating universityId={university.id} />
+      <Rates universityId={university.id} />
     </div>
   );
 }

@@ -242,7 +242,7 @@ function MapMarker(props: MapMarkerProps) {
               )}
             </span>
             <span className="popup__rating">
-              <Rating />
+              <Rating universityId={university.id} />
             </span>
           </div>
         </InfoWindow>

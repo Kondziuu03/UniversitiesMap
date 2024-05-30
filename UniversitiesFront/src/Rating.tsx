@@ -6,6 +6,7 @@ import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import { createRate } from "./service";
 import UserContext from "./UserContext";
 
 const MAX_RATING = 5;
@@ -85,12 +86,21 @@ const Stars = React.forwardRef((props: StarsProps, ref) => {
   );
 });
 
-export default function Rating() {
+interface RatingProps {
+  universityId: number;
+}
+
+export default function Rating(props: RatingProps) {
+  const { universityId } = props;
   const [isHovered, setIsHovered] = React.useState(false);
+  const { user } = React.useContext(UserContext);
   const starsRef = React.useRef<HTMLDivElement>(document.createElement("div"));
   const commentRef = React.useRef<HTMLInputElement>(
     document.createElement("input")
   );
+  if (!user) {
+    return "Please login to rate";
+  }
 
   return (
     <div
@@ -106,12 +116,17 @@ export default function Rating() {
         ref={commentRef}
       />
       <button
-        onClick={(e) => {
+        onClick={async (e) => {
           e.preventDefault();
 
-          const rating = starsRef.current.querySelectorAll(".selected").length;
+          const stars = starsRef.current.querySelectorAll(".selected").length;
           const comment = commentRef.current.value;
-          console.log(rating, comment);
+          const response = await createRate({
+            rateValue: stars,
+            comment,
+            userId: user.id,
+            universityId,
+          });
         }}
       >
         Rate
