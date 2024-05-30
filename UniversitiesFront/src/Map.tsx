@@ -31,6 +31,7 @@ import military from "./assets/icons/military.png";
 import tech from "./assets/icons/tech.png";
 import uni from "./assets/icons/uni.png";
 import { University, UniversityType } from "./mock/universities";
+import Rates from "./Rates";
 import Rating from "./Rating";
 import { updateUniversity } from "./service";
 import UserContext from "./UserContext";
@@ -243,6 +244,7 @@ function MapMarker(props: MapMarkerProps) {
             </span>
             <span className="popup__rating">
               <Rating universityId={university.id} />
+              <Rates universityId={university.id} />
             </span>
           </div>
         </InfoWindow>

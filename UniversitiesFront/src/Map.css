@@ -6,6 +6,10 @@
   margin: 0 auto;
 }
 
+.gm-style-iw {
+  max-height: 350px !important;
+}
+
 .tooltip {
   position: absolute;
   z-index: 10;
@@ -19,7 +23,7 @@
   flex-direction: column;
   text-align: left;
   color: #222;
-  height: 250px;
+  height: 350px;
 }
 
 .popup__edit {
