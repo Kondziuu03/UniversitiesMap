@@ -1,6 +1,26 @@
+import { register } from "./service";
+
 export default function Register() {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const firstName = (e.currentTarget[0] as HTMLInputElement).value;
+    const lastName = (e.currentTarget[1] as HTMLInputElement).value;
+    const email = (e.currentTarget[2] as HTMLInputElement).value;
+    const password = (e.currentTarget[3] as HTMLInputElement).value;
+    const confirmPassword = (e.currentTarget[4] as HTMLInputElement).value;
+
+    const response = await register({
+      email,
+      firstName,
+      lastName,
+      password,
+      confirmPassword,
+    });
+    const data = response.data;
+    if (data) {
+      return;
+    }
   };
 
   return (
