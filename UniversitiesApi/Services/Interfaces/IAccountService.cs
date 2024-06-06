@@ -5,5 +5,5 @@ namespace UniversitiesApi.Services.Interfaces;
 public interface IAccountService
 {
     void RegisterUser(RegisterUserDto dto);
-    string GenerateJwt(LoginDto dto);
+    UserDto GenerateJwt(LoginDto dto);
 }

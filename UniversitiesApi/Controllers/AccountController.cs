@@ -23,9 +23,9 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("login")]
-    public ActionResult Login([FromBody] LoginDto dto)
+    public ActionResult<UserDto> Login([FromBody] LoginDto dto)
     {
-        string token = _accountService.GenerateJwt(dto);
-        return Ok(token);
+        var userWithToken = _accountService.GenerateJwt(dto);
+        return Ok(userWithToken);
     }
 }

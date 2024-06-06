@@ -26,7 +26,7 @@ public class AccountService : IAccountService
         _authenticationSettings = authenticationSettings;
     }
 
-    public string GenerateJwt(LoginDto dto)
+    public UserDto GenerateJwt(LoginDto dto)
     {
         var user = _dbContext.Users
                 .FirstOrDefault(x => x.Email == dto.Email);
@@ -55,7 +55,15 @@ public class AccountService : IAccountService
             signingCredentials: cred);
 
         var tokenHandler = new JwtSecurityTokenHandler();
-        return tokenHandler.WriteToken(token);
+
+        return new UserDto
+        {
+            Id = user.Id,
+            Email = user.Email,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Token = tokenHandler.WriteToken(token)
+        };
     }
 
     public void RegisterUser(RegisterUserDto dto)
