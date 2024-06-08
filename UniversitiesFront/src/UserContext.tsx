@@ -10,7 +10,7 @@ export type User = {
 
 const UserContext = React.createContext<{
   user: User | undefined;
-  setUser: (user: User) => void;
+  setUser: (user: User | undefined) => void;
 }>({ user: undefined, setUser: () => {} });
 
 export default UserContext;

@@ -34,3 +34,11 @@
   align-items: center;
   gap: 10px;
 }
+
+.register__errors *,
+.login__error {
+  display: flex;
+  flex-direction: column;
+  color: red;
+  font-size: 12px;
+}

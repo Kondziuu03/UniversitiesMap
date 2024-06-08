@@ -3,7 +3,7 @@ import React from "react";
 import UserContext from "./UserContext";
 
 export default function Profile() {
-  const { user } = React.useContext(UserContext)!;
+  const { user, setUser } = React.useContext(UserContext)!;
 
   if (!user) {
     return "Please login to view your profile";
@@ -24,6 +24,9 @@ export default function Profile() {
           </p>
         </div>
       </div>
+      <button className="logout" onClick={() => setUser(undefined)}>
+        Logout
+      </button>
     </div>
   );
 }
