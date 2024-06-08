@@ -17,7 +17,7 @@ export default function ListItem(props: ListProps) {
   const { user } = React.useContext(UserContext);
 
   React.useEffect(() => {
-    const response = getRates(university.id, user?.token).then((response) => {
+    getRates(university.id, user?.token).then((response) => {
       setRates(response.data);
     });
   }, [university.id, user]);
@@ -32,7 +32,7 @@ export default function ListItem(props: ListProps) {
       <p>{university.phoneNumber}</p>
       <p>{university.email}</p>
       <Rating universityId={university.id} setRates={setRates} />
-      <Rates rates={rates} />
+      {user && <Rates rates={rates} />}
     </div>
   );
 }

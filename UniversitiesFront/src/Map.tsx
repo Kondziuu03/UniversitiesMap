@@ -33,7 +33,7 @@ import uni from "./assets/icons/uni.png";
 import { University, UniversityType } from "./mock/universities";
 import Rates from "./Rates";
 import Rating from "./Rating";
-import { updateUniversity } from "./service";
+import { getRates, Rate, updateUniversity } from "./service";
 import UserContext from "./UserContext";
 
 function renderIcon(type: UniversityType) {
@@ -119,6 +119,13 @@ function MapMarker(props: MapMarkerProps) {
   const phoneNumberRef = React.useRef<HTMLInputElement>(null);
   const emailRef = React.useRef<HTMLInputElement>(null);
   const { user } = React.useContext(UserContext);
+  const [rates, setRates] = React.useState<Rate[]>([]);
+
+  React.useEffect(() => {
+    getRates(university.id, user?.token).then((response) => {
+      setRates(response.data);
+    });
+  }, [university.id, user]);
 
   return (
     <>
@@ -243,8 +250,8 @@ function MapMarker(props: MapMarkerProps) {
               )}
             </span>
             <span className="popup__rating">
-              <Rating universityId={university.id} />
-              <Rates universityId={university.id} />
+              <Rating universityId={university.id} setRates={setRates} />
+              {user && <Rates rates={rates} />}
             </span>
           </div>
         </InfoWindow>
