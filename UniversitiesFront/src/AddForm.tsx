@@ -77,26 +77,28 @@ export default function AddForm(props: AddFormProps) {
 
     convertedObject["phoneNumber"] = convertedObject["phoneNumber"].toString();
 
-    createUniversity(convertedObject as CreateUniversity).then((res) => {
-      if (res.status === 201) {
-        setUniversities((prev: University[]) => [...prev, convertedObject]);
-        setLocation({ x: undefined, y: undefined });
-        setMarker(false);
-        setStatus("success");
-        setMessage("University added!");
-        setTimeout(() => {
-          setStatus("");
-          setMessage("");
-        }, 5000);
-      } else {
-        setStatus("error");
-        setMessage("Error!");
-        setTimeout(() => {
-          setStatus("");
-          setMessage("");
-        }, 5000);
+    createUniversity(convertedObject as CreateUniversity, user.token).then(
+      (res) => {
+        if (res.status === 201) {
+          setUniversities((prev: University[]) => [...prev, convertedObject]);
+          setLocation({ x: undefined, y: undefined });
+          setMarker(false);
+          setStatus("success");
+          setMessage("University added!");
+          setTimeout(() => {
+            setStatus("");
+            setMessage("");
+          }, 5000);
+        } else {
+          setStatus("error");
+          setMessage("Error!");
+          setTimeout(() => {
+            setStatus("");
+            setMessage("");
+          }, 5000);
+        }
       }
-    });
+    );
   };
   const renderStatus = () => {
     switch (status) {

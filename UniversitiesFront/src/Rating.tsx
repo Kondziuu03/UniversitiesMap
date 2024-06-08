@@ -6,7 +6,7 @@ import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { createRate } from "./service";
+import { createRate, Rate } from "./service";
 import UserContext from "./UserContext";
 
 const MAX_RATING = 5;
@@ -88,10 +88,11 @@ const Stars = React.forwardRef((props: StarsProps, ref) => {
 
 interface RatingProps {
   universityId: number;
+  setRates: React.Dispatch<React.SetStateAction<Rate[]>>;
 }
 
 export default function Rating(props: RatingProps) {
-  const { universityId } = props;
+  const { universityId, setRates } = props;
   const [isHovered, setIsHovered] = React.useState(false);
   const { user } = React.useContext(UserContext);
   const starsRef = React.useRef<HTMLDivElement>(document.createElement("div"));
@@ -121,12 +122,14 @@ export default function Rating(props: RatingProps) {
 
           const stars = starsRef.current.querySelectorAll(".selected").length;
           const comment = commentRef.current.value;
-          const response = await createRate({
+          const rate = {
             rateValue: stars,
             comment,
             userId: user.id,
             universityId,
-          });
+          };
+          const response = await createRate(rate, user.token);
+          setRates((prev) => [...prev, rate]);
         }}
       >
         Rate

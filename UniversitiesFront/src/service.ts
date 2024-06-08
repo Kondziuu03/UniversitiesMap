@@ -29,8 +29,10 @@ export interface CreateUniversity {
   };
 }
 
-export function createUniversity(university: CreateUniversity) {
-  return axios.post("university", university);
+export function createUniversity(university: CreateUniversity, token: string) {
+  return axios.post("university", university, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 }
 
 export interface UpdateUniversity {
@@ -52,7 +54,7 @@ export interface Login {
 }
 
 export function login(user: Login) {
-  return axios.post("login", user);
+  return axios.post("account/login", user);
 }
 
 export interface Register {
@@ -64,11 +66,13 @@ export interface Register {
 }
 
 export function register(user: Register) {
-  return axios.post("register", user);
+  return axios.post("account/register", user);
 }
 
-export function getRates(universityId: number) {
-  return axios.get(`university/rates/{${universityId}}`);
+export function getRates(universityId: number, token: string) {
+  return axios.get(`university/rates/${universityId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 }
 
 export interface Rate {
@@ -78,6 +82,8 @@ export interface Rate {
   universityId: number;
 }
 
-export function createRate(rate: Rate) {
-  return axios.post("rates", rate);
+export function createRate(rate: Rate, token: string) {
+  return axios.post("university/rates", rate, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 }

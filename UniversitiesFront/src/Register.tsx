@@ -18,9 +18,13 @@ export default function Register() {
       confirmPassword,
     });
     const data = response.data;
-    if (data) {
+    if (data.status === 200) {
       return;
     }
+    const errors = data.errors;
+    errors.forEach((error) => {
+      console.log(error);
+    });
   };
 
   return (

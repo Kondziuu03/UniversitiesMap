@@ -1,8 +1,11 @@
+import React from "react";
 import "./ListItem.css";
 
 import { University } from "./mock/universities";
 import Rates from "./Rates";
 import Rating from "./Rating";
+import { getRates, Rate } from "./service";
+import UserContext from "./UserContext";
 
 interface ListProps {
   university: University;
@@ -10,6 +13,14 @@ interface ListProps {
 
 export default function ListItem(props: ListProps) {
   const { university } = props;
+  const [rates, setRates] = React.useState<Rate[]>([]);
+  const { user } = React.useContext(UserContext);
+
+  React.useEffect(() => {
+    const response = getRates(university.id, user?.token).then((response) => {
+      setRates(response.data);
+    });
+  }, [university.id, user]);
 
   return (
     <div key={university.id} className="list__item">
@@ -20,8 +31,8 @@ export default function ListItem(props: ListProps) {
       </p>
       <p>{university.phoneNumber}</p>
       <p>{university.email}</p>
-      <Rating universityId={university.id} />
-      <Rates universityId={university.id} />
+      <Rating universityId={university.id} setRates={setRates} />
+      <Rates rates={rates} />
     </div>
   );
 }

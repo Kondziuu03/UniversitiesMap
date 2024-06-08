@@ -13,7 +13,7 @@ import UserButton from "./UserButton";
 import UserContext, { User } from "./UserContext";
 
 function App() {
-  const [user, setUser] = React.useState<User | undefined>(MOCK_USER);
+  const [user, setUser] = React.useState<User | undefined>(undefined);
   const [text, setText] = React.useState("");
   const [universities, setUniversities] = React.useState([]);
   const filteredUniversities = React.useMemo(() => {

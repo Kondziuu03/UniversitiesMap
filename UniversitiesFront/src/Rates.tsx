@@ -1,20 +1,11 @@
-import React from "react";
-
-import { getRates, Rate } from "./service";
+import { Rate } from "./service";
 
 interface RatesProps {
-  universityId: number;
+  rates: Rate[];
 }
 
 export default function Rates(props: RatesProps) {
-  const { universityId } = props;
-  const [rates, setRates] = React.useState<Rate[]>([]);
-
-  React.useEffect(() => {
-    const response = getRates(universityId).then((response) => {
-      setRates(response.data);
-    });
-  }, [universityId]);
+  const { rates } = props;
 
   return (
     <div>
@@ -25,8 +16,10 @@ export default function Rates(props: RatesProps) {
         rates.map((rate, i) => {
           return (
             <div key={i}>
-              <p>{rate.rateValue}</p>
-              <p>{rate.comment}</p>
+              <p>
+                User: {rate.userId} - {rate.rateValue}
+              </p>
+              <p>Comment: {rate.comment}</p>
             </div>
           );
         })
