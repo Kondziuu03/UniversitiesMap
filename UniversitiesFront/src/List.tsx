@@ -12,6 +12,7 @@ export default function List(props: ListProps) {
 
   return (
     <div className="list">
+      <h2>Universities</h2>
       {universities.map((university) => (
         <ListItem key={university.id} university={university} />
       ))}
