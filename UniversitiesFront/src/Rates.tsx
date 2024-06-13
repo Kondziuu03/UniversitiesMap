@@ -14,7 +14,7 @@ export default function Rates(props: RatesProps) {
 
   return (
     <div>
-      <h3>Rates - {avg}</h3>
+      <h3>Rates - (Avg {avg ?? "Brak"})</h3>
       {rates.length === 0 ? (
         <span>No rates yet</span>
       ) : (
